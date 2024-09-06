@@ -15,16 +15,18 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var markerData = [
-    { coords: [43.0618, 141.3545], image: 'https://sni.org.pe/wp-content/uploads/2023/08/dia-cerveza-1199x800.jpg', title: 'Cerveza y Jingisukan', description: 'Estilo de comida en Sapporo hola yuuka como estas esta es la prueba del popup...' },
-    { coords: [35.6895, 139.6917], image: 'images/castillo1.jpg', title: 'Delicias de Tokio', description: 'Explora los sabores de Tokio...' }
+    { coords: [43.0618, 141.3545], image: 'https://sni.org.pe/wp-content/uploads/2023/08/dia-cerveza-1199x800.jpg', title: 'Cerveza y Jingisukan', description: 'Estilo de comida en Sapporo hola yuuka como estas esta es la prueba del popup...', link:'https://www.canva.com/design/DAGP29m1X_U/2ZW_nPRWJuSAXTtz4ys97A/edit' },
+    { coords: [35.6895, 139.6917], image: 'images/castillo1.jpg', title: 'Delicias de Tokio', description: 'Explora los sabores de Tokio...', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' }
 ];
 
 markerData.forEach(function(data) {
     L.marker(data.coords).addTo(map).bindPopup(
         "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
         "<b>" + data.title + "</b><br>" +
-        data.description +
-        "</div>"
+        data.description + "<br><br>" +
+	"<a href='" + data.link + "' target='_blank'>" + 
+        "<button style='background-color: blue; color: white;'>Más info</button>" +
+        "</a>"
     );
 });
 
