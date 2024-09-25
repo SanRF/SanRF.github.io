@@ -2,48 +2,86 @@
 <html>
 <head>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <div id="map" style="width: 1000px; height: 1000px; position: relative; outline-style: none;"></div>
 <script>
-
-var map = L.map('map').setView([35.6712, 139.7811], 11);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
 
 var markerData = [
     { coords: [43.0618, 141.3545], image: 'https://sni.org.pe/wp-content/uploads/2023/08/dia-cerveza-1199x800.jpg', title: 'Cerveza y Jingisukan', description: 'Estilo de comida en Sapporo hola yuuka como estas esta es la prueba del popup...', link:'https://www.canva.com/design/DAGP29m1X_U/2ZW_nPRWJuSAXTtz4ys97A/edit' },
     { coords: [35.6895, 139.6917], image: 'images/castillo1.jpg', title: 'Delicias de Tokio', description: 'Explora los sabores de Tokio...', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' }
 ];
 
+var markerDataS = [
+    { coords: [42.3908333, 142.4311111], image: 'images/cerezos1.jpg', title: 'Cerezos en flor en la carretera de Nijukken', description: 'Hermosa vista de los cerezos en flor.', link: '#' },
+    { coords: [41.4297222, 140.1083333], image: 'images/parque2.jpg', title: 'Parque Matsumae', description: 'Un parque encantador lleno de historia y cerezos en flor.', link: '#' },
+    { coords: [40.9138888, 140.4505555], image: 'images/parque3.jpg', title: 'Parque Natural de la Prefectura de Ashino Ikenuma', description: 'Disfruta de la naturaleza en este parque natural.', link: '#' },
+    { coords: [40.6083333, 140.4652777], image: 'images/parque4.jpg', title: 'Parque Hirosaki', description: 'Uno de los mejores lugares para ver cerezos en Japón.', link: '#' },
+    { coords: [39.7227777, 141.1438888], image: 'images/parque5.jpg', title: 'Parque Takamatsu', description: 'Parque con paisajes espectaculares y flores de temporada.', link: '#' }
+];
+
+// Create the castle layer group
+var castillo = L.layerGroup();
 markerData.forEach(function(data) {
-    L.marker(data.coords).addTo(map).bindPopup(
+    L.marker(data.coords).bindPopup(
         "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
         "<b>" + data.title + "</b><br>" +
         data.description + "<br><br>" +
-	"<a href='" + data.link + "' target='_blank'>" + 
+        "<a href='" + data.link + "' target='_blank'>" + 
         "<button style='background-color: blue; color: white;'>Más info</button>" +
         "</a>"
-    );
+    ).addTo(castillo);
 });
 
+// Create the sakura layer group
+var sakura = L.layerGroup();
+markerDataS.forEach(function(data) {
+    L.marker(data.coords).bindPopup(
+        "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
+        "<b>" + data.title + "</b><br>" +
+        data.description + "<br><br>" +
+        "<a href='" + data.link + "' target='_blank'>" + 
+        "<button style='background-color: blue; color: white;'>Más info</button>" +
+        "</a>"
+    ).addTo(sakura);
+});
+
+// Initialize the map
+var map = L.map('map', {
+    center: [35.6712, 139.7811], 
+    zoom: 11,
+    layers: [castillo] // Set an initial layer if needed
+});
+
+// Add tile layer
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+// Create layer control
+var overlayMaps = {
+    "Castillos": castillo,
+    "Sakuras": sakura
+};
+
+// Add layer control to the map
+L.control.layers(null, overlayMaps).addTo(map);
 
 </script>
 <style>
-            html, body {
-                  height: 100%;
-                  margin: 0;
-            }
-		
-            .leaflet-container {
-                  height: 100%;
-                  width: 100%;
-                  max-width: 100%;
-                  max-height: 100%;
-            }
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    
+    .leaflet-container {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 </head>
 <body>
