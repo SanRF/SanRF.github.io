@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<meta charset="UTF-8">
+
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <!-- Make sure you put this AFTER Leaflet's CSS -->
@@ -8,12 +11,98 @@
 <div id="map" style="width: 1000px; height: 1000px; position: relative; outline-style: none;"></div>
 <script>
 
-var markerData = [
-    { coords: [43.0618, 141.3545], image: 'https://sni.org.pe/wp-content/uploads/2023/08/dia-cerveza-1199x800.jpg', title: 'Cerveza y Jingisukan', description: 'Estilo de comida en Sapporo hola yuuka como estas esta es la prueba del popup...', link:'http://xs066656.xsrv.jp/2024/09/01/犬山城/#castillo' },
-    { coords: [35.6895, 139.6917], image: 'images/castillo1.jpg', title: 'Delicias de Tokio', description: 'Explora los sabores de Tokio...', link: 'http://xs066656.xsrv.jp/2024/09/01/犬山城/#castillo' }
+var castilloData = [
+    { coords: [35.6895, 139.6917], image: 'http://xs066656.xsrv.jp/wp-content/uploads/2024/09/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88-2024-09-01-20.53.36-1-1024x755.png', title: 'Delicias de Tokio', description: 'こんにちはメキシコ大使館です', link: 'http://xs066656.xsrv.jp/2024/09/01/犬山城/#castillo' },
+    { coords: [41.7972222, 140.7569444], image: 'jpg', title: 'Goryokaku', description: 'Pentágonos en Sapporo', link: 'link' },
+    { coords: [41.4297222, 140.1083333], image: 'jpg', title: 'Castillo Matsumae', description: '', link: 'link' },
+    { coords: [41.4297222, 140.1083333], image: 'jpg', title: 'Castillo Matsumae (Castillo de Fukuyama)', description: '', link: 'link' },
+    { coords: [40.6075, 140.4638888], image: 'jpg', title: 'Castillo Hirosaki', description: '', link: 'link' },
+    { coords: [40.5061111, 141.4605555], image: 'jpg', title: 'Nejo', description: '', link: 'link' },
+    { coords: [39.7005555, 141.15], image: 'jpg', title: 'Castillo de morioka', description: '', link: 'link' },
+    { coords: [38.3066666, 140.9883333], image: 'jpg', title: 'Tagajó', description: '', link: 'link' },
+    { coords: [38.2530555, 140.8555555], image: 'jpg', title: 'Castillo de Sendai (Castillo de Aoba)', description: '', link: 'link' },
+    { coords: [39.7227777, 140.1236111], image: 'jpg', title: 'Castillo de Kubota', description: '', link: 'link' },
+    { coords: [38.2555555, 140.3283333], image: 'jpg', title: 'Castillo Yamagata', description: '', link: 'link' },
+    { coords: [37.5994444, 140.4277777], image: 'jpg', title: 'Castillo Nihonmatsu (Kasumigajo)', description: '', link: 'link' },
+    { coords: [37.4875, 139.9297222], image: 'jpg', title: 'Castillo Aizuwakamatsu', description: '', link: 'link' },
+    { coords: [37.1325, 140.2133333], image: 'jpg', title: 'Castillo Shirakawa Komine', description: '', link: 'link' },
+    { coords: [36.3752777, 140.4769444], image: 'jpg', title: 'castillo mito', description: '', link: 'link' },
+    { coords: [36.3375, 139.4522222], image: 'jpg', title: 'Mansión del clan Ashikaga (templo Ban'a)', description: '', link: 'link' },
+    { coords: [36.405, 138.9508333], image: 'jpg', title: 'Castillo Minowa', description: '', link: 'link' },
+    { coords: [36.3169444, 139.3777777], image: 'jpg', title: 'Ciudad de Jinshan', description: '', link: 'link' },
+    { coords: [36.1091666, 139.1958333], image: 'jpg', title: 'ciudad en forma de cuenco', description: '', link: 'link' },
+    { coords: [35.9247222, 139.4913888], image: 'jpg', title: 'Castillo Kawagoe', description: '', link: 'link' },
+    { coords: [35.7222222, 140.2158333], image: 'jpg', title: 'Castillo de Sakura', description: '', link: 'link' },
+    { coords: [35.6872222, 139.7552777], image: 'jpg', title: 'castillo edo', description: '', link: 'link' },
+    { coords: [35.6530555, 139.2527777], image: 'jpg', title: 'Castillo Hachioji', description: '', link: 'link' },
+    { coords: [35.2513888, 139.1536111], image: 'jpg', title: 'Castillo de Odawara', description: '', link: 'link' },
+    { coords: [35.6866666, 138.5766666], image: 'jpg', title: 'Museo del Clan Takeda (Santuario Takeda)', description: '', link: 'link' },
+    { coords: [35.6652777, 138.5713888], image: 'jpg', title: 'Castillo de Kofu', description: '', link: 'link' },
+    { coords: [36.5658333, 138.1958333], image: 'jpg', title: 'Castillo de Matsushiro', description: '', link: 'link' },
+    { coords: [36.4036111, 138.2444444], image: 'jpg', title: 'Castillo de Ueda', description: '', link: 'link' },
+    { coords: [36.3269444, 138.4169444], image: 'jpg', title: 'Xiaozhucheng', description: '', link: 'link' },
+    { coords: [36.2386111, 137.9688888], image: 'jpg', title: 'Castillo de Matsumoto', description: '', link: 'link' },
+    { coords: [35.8327777, 138.0625], image: 'jpg', title: 'Gao Yuan Cheng', description: '', link: 'link' },
+    { coords: [37.9552777, 139.3252777], image: 'jpg', title: 'Castillo Shibata', description: '', link: 'link' },
+    { coords: [37.1466666, 138.2055555], image: 'jpg', title: 'Castillo Kasugayama', description: '', link: 'link' },
+    { coords: [36.7491666, 137.0208333], image: 'jpg', title: 'Castillo de Takaoka', description: '', link: 'link' },
+    { coords: [37.0086111, 136.9838888], image: 'jpg', title: 'Castillo Nanao', description: '', link: 'link' },
+    { coords: [36.5636111, 136.6594444], image: 'jpg', title: 'Castillo de Kanazawa', description: '', link: 'link' },
+    { coords: [36.1519444, 136.2722222], image: 'jpg', title: 'Castillo de Maruoka', description: '', link: 'link' },
+    { coords: [35.9958333, 136.3080555], image: 'jpg', title: 'Castillo Ichijodani', description: '', link: 'link' },
+    { coords: [35.3597222, 137.4511111], image: 'jpg', title: 'Castillo Iwamura', description: '', link: 'link' },
+    { coords: [35.4338888, 136.7822222], image: 'jpg', title: 'Castillo Gifu', description: '', link: 'link' },
+    { coords: [35.1561111, 138.9919444], image: 'jpg', title: 'Castillo de Yamanaka', description: '', link: 'link' },
+    { coords: [34.9791666, 138.3830555], image: 'jpg', title: 'Castillo Sunpu', description: '', link: 'link' },
+    { coords: [34.775, 138.0138888], image: 'jpg', title: 'Castillo Kakegawa', description: '', link: 'link' },
+    { coords: [35.3883333, 136.9391666], image: 'jpg', title: 'Castillo de Inuyama', description: '', link: 'link' },
+    { coords: [35.1858333, 136.8994444], image: 'jpg', title: 'castillo de nagoya', description: '', link: 'link' },
+    { coords: [34.9561111, 137.1588888], image: 'jpg', title: 'Castillo Okazaki', description: '', link: 'link' },
+    { coords: [34.9227777, 137.5597222], image: 'jpg', title: 'Castillo Nagashino', description: '', link: 'link' },
+    { coords: [34.77, 136.1272222], image: 'jpg', title: 'Castillo Iga Ueno', description: '', link: 'link' },
+    { coords: [34.5758333, 136.5255555], image: 'jpg', title: 'Castillo Matsusaka', description: '', link: 'link' },
+    { coords: [35.4588888, 136.2763888], image: 'jpg', title: 'Castillo Odari', description: '', link: 'link' },
+    { coords: [35.2763888, 136.2516666], image: 'jpg', title: 'Castillo Hikone', description: '', link: 'link' },
+    { coords: [35.1558333, 136.1391666], image: 'jpg', title: 'Castillo Azuchi', description: '', link: 'link' },
+    { coords: [35.1458333, 136.1577777], image: 'jpg', title: 'Castillo Kanonji', description: '', link: 'link' },
+    { coords: [35.0141666, 135.7477777], image: 'jpg', title: 'Castillo de Nijō', description: '', link: 'link' },
+    { coords: [34.6875, 135.5258333], image: 'jpg', title: 'Castillo de Osaka', description: '', link: 'link' },
+    { coords: [34.4169444, 135.6513888], image: 'jpg', title: 'Castillo Chihaya', description: '', link: 'link' },
+    { coords: [35.3, 134.8288888], image: 'jpg', title: 'Castillo Takeda', description: '', link: 'link' },
+    { coords: [35.0730555, 135.2175], image: 'jpg', title: 'Castillo de Sasayama', description: '', link: 'link' },
+    { coords: [34.6525, 134.9916666], image: 'jpg', title: 'Castillo de Akashi', description: '', link: 'link' },
+    { coords: [34.8394444, 134.6938888], image: 'jpg', title: 'castillo himeji', description: '', link: 'link' },
+    { coords: [34.7458333, 134.3891666], image: 'jpg', title: 'Castillo de Ako', description: '', link: 'link' },
+    { coords: [34.4291666, 135.8275], image: 'jpg', title: 'Castillo Takatori', description: '', link: 'link' },
+    { coords: [34.2275, 135.1713888], image: 'jpg', title: 'Castillo de Wakayama', description: '', link: 'link' },
+    { coords: [35.51, 134.2411111], image: 'jpg', title: 'Castillo de Totori', description: '', link: 'link' },
+    { coords: [35.475, 133.0505555], image: 'jpg', title: 'Castillo Matsue', description: '', link: 'link' },
+    { coords: [35.3608333, 133.1847222], image: 'jpg', title: 'Castillo Gassan Tomita', description: '', link: 'link' },
+    { coords: [34.46, 131.7641666], image: 'jpg', title: 'Castillo Tsuwano', description: '', link: 'link' },
+    { coords: [35.0627777, 134.005], image: 'jpg', title: 'Castillo Tsuyama', description: '', link: 'link' },
+    { coords: [34.8088888, 133.6219444], image: 'jpg', title: 'Castillo Bitchu Matsuyama', description: '', link: 'link' },
+    { coords: [34.7275, 133.7677777], image: 'jpg', title: 'Castillo Kinojo', description: '', link: 'link' },
+    { coords: [34.665, 133.9361111], image: 'jpg', title: 'Castillo de Okayama', description: '', link: 'link' },
+    { coords: [34.4908333, 133.3611111], image: 'jpg', title: 'Castillo de Fukuyama', description: '', link: 'link' },
+    { coords: [34.6736111, 132.7094444], image: 'jpg', title: 'castillo de koriyama', description: '', link: 'link' },
+    { coords: [34.4025, 132.4591666], image: 'jpg', title: 'castillo de hiroshima', description: '', link: 'link' },
+    { coords: [34.1752777, 132.1741666], image: 'jpg', title: 'Castillo de Iwakuni', description: '', link: 'link' },
+    { coords: [34.4213888, 131.3813888], image: 'jpg', title: 'Castillo de Hagi', description: '', link: 'link' },
+    { coords: [34.0752777, 134.555], image: 'jpg', title: 'Castillo Tokushima', description: '', link: 'link' },
+    { coords: [34.3502777, 134.0516666], image: 'jpg', title: 'Castillo Takamatsu', description: '', link: 'link' },
+    { coords: [34.2861111, 133.8005555], image: 'jpg', title: 'Castillo de Marugame', description: '', link: 'link' },
+    { coords: [34.0633333, 133.0069444], image: 'jpg', title: 'Castillo Imabari', description: '', link: 'link' },
+    { coords: [33.8486111, 132.7863888], image: 'jpg', title: 'Tang Zhucheng', description: '', link: 'link' },
+    { coords: [33.8455555, 132.7655555], image: 'jpg', title: 'ciudad de songshan', description: '', link: 'link' },
+    { coords: [33.5094444, 132.5411111], image: 'jpg', title: 'ciudad de dazhou', description: '', link: 'link' },
+    { coords: [33.2191666, 132.565], image: 'jpg', title: 'Castillo Uwajima', description: '', link: 'link' },
+    { coords: [33.5608333, 133.5311111], image: 'jpg', title: 'Castillo de Cochín', description: '', link: 'link' },
+    { coords: [33.5847222, 130.3830555], image: 'jpg', title: 'castillo de fukuoka', description: '', link: 'link' },
+    { coords: [33.5397222, 130.5230555], image: 'jpg', title: 'Castillo de Ono', description: '', link: 'link' },
+    { coords: [33.5397222, 130.5230555], image: 'jpg', title: 'Castillo de Nagoya', description: '', link: 'link' },
 ];
 
-var markerDataS = [
+var sakuraData = [
     { coords: [42.3908333, 142.4311111], image: 'images/cerezos1.jpg', title: 'Cerezos en flor en la carretera de Nijukken', description: 'Hermosa vista de los cerezos en flor.', link: '#' },
     { coords: [41.4297222, 140.1083333], image: 'images/parque2.jpg', title: 'Parque Matsumae', description: 'Un parque encantador lleno de historia y cerezos en flor.', link: '#' },
     { coords: [40.9138888, 140.4505555], image: 'images/parque3.jpg', title: 'Parque Natural de la Prefectura de Ashino Ikenuma', description: 'Disfruta de la naturaleza en este parque natural.', link: '#' },
@@ -21,9 +110,113 @@ var markerDataS = [
     { coords: [39.7227777, 141.1438888], image: 'images/parque5.jpg', title: 'Parque Takamatsu', description: 'Parque con paisajes espectaculares y flores de temporada.', link: '#' }
 ];
 
+var islasData = [
+    { coords: [45.3030555, 141.0477777], image: 'images/castillo1.jpg', title: 'Isla Rebun', description: 'La pesca de algas kombu más al norte de Japón', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [45.1286111, 141.1805555], image: 'images/castillo1.jpg', title: 'Isla Rishiri', description: 'La danza del león Rishiri Kirin en la isla del norte', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [44.4372222, 141.4191666], image: 'images/castillo1.jpg', title: 'Isla Yagishiri', description: 'Bosque virgen de tejo japonés, ovejas y focas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [38.2955555, 141.4197222], image: 'images/castillo1.jpg', title: 'Isla Tashirojima', description: 'El santuario de gatos, guardián de la isla', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [38.3252777, 141.1547222], image: 'images/castillo1.jpg', title: 'Isla Miyato', description: 'La ceremonia de ahuyentar pájaros \'Enzu no Wari\' en el pequeño Año Nuevo', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [39.1958333, 139.5583333], image: 'images/castillo1.jpg', title: 'Isla Tobishima', description: 'Festival de agradecimiento por la cosecha de soba Tenpo y patatas de Tobishima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.3741666, 139.2569444], image: 'images/castillo1.jpg', title: 'Isla Niijima', description: 'Edificios de piedra Koga (piedra resistente al fuego)', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.2052777, 139.1344444], image: 'images/castillo1.jpg', title: 'Isla Kozushima', description: 'Cultura pesquera tradicional \'pesca de cerco\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.0669444, 139.4825], image: 'images/castillo1.jpg', title: 'Isla Miyakejima', description: 'Ceremonia tradicional de Año Nuevo \'bendición de barcos\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.0663888, 139.8122222], image: 'images/castillo1.jpg', title: 'Isla Hachijojima', description: 'Tejido tradicional Kihachijo', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [24.0566666, 123.7813888], image: 'images/castillo1.jpg', title: 'Isla Hateruma', description: 'Campos de caña de azúcar', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },            
+    { coords: [27.0952777, 142.1966666], image: 'images/castillo1.jpg', title: 'Isla Chichijima', description: 'El momento de la partida del barco Ogasawara Maru', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [38.02, 138.4488888], image: 'images/castillo1.jpg', title: 'Isla Sado', description: 'Creación de un entorno en la isla para la coexistencia de ibis y personas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [38.3261111, 138.4863888], image: 'images/castillo1.jpg', title: 'Isla Sado', description: 'Gran colonia de lirios de día de Tobishima en Sotogafu-Oonokame', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },    
+    { coords: [37.8533333, 138.3205555], image: 'images/castillo1.jpg', title: 'Isla Sado', description: 'Artes escénicas y eventos tradicionales de Sado', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },    
+    { coords: [37.85, 136.9194444], image: 'images/castillo1.jpg', title: 'Isla Hegura', description: 'Isla de cairns (montículos de piedra) hechos por las buceadoras ama', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [37.1663888, 137.0355555], image: 'images/castillo1.jpg', title: 'Isla Notojima', description: 'La calidez de los isleños que reciben con cariño a los delfines', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [35.0419444, 139.1694444], image: 'images/castillo1.jpg', title: 'Isla Hatsushima', description: 'Sabiduría heredada y regalo de la naturaleza: las redes para camarones', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.7258333, 137.0344444], image: 'images/castillo1.jpg', title: 'Isla Sakushima', description: 'Perlas negras de la bahía de Mikawa', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.7047222, 136.9975], image: 'images/castillo1.jpg', title: 'Isla Himakajima', description: 'Festival Horoku', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.6844444, 137.0080555], image: 'images/castillo1.jpg', title: 'Isla Shinojima', description: 'Ofrenda de la dorada sagrada al santuario de Ise', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.5291666, 136.9047222], image: 'images/castillo1.jpg', title: 'Isla Toshijima', description: 'Festival del santuario Hachiman', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.4988888, 136.9005555], image: 'images/castillo1.jpg', title: 'Isla Sugashima', description: 'Festival Shirongo', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.1680555, 134.8197222], image: 'images/castillo1.jpg', title: 'Isla Nushima', description: 'Carros festivos entrando al mar - Festival de primavera del santuario Hachiman de Nushima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.6769444, 134.5266666], image: 'images/castillo1.jpg', title: 'Isla Ieshima', description: 'Festival Tenjin de Ieshima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [36.1913888, 133.2363888], image: 'images/castillo1.jpg', title: 'Isla Dogo', description: 'Cobertizos para botes en Oki-Dogo', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [36.2380555, 133.2347222], image: 'images/castillo1.jpg', title: 'Isla Dogo', description: 'Lucha de toros de Oki', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [36.1069444, 132.9733333], image: 'images/castillo1.jpg', title: 'Isla Nishinoshima', description: 'Armonía entre paisajes impresionantes y pastoreo: \'Makihata\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },    
+    { coords: [36.0208333, 133.015], image: 'images/castillo1.jpg', title: 'Isla Chiburijima', description: 'Monte Akahage que conserva vestigios del sistema de rotación de pastizales', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.6836111, 134.2991666], image: 'images/castillo1.jpg', title: 'Isla Otabu', description: 'Rompeolas de la era Genroku en el puerto pesquero de Otabu', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.6111111, 134.1711111], image: 'images/castillo1.jpg', title: 'Isla Maejima', description: 'Bosque de hierba marina', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.5663888, 134.105], image: 'images/castillo1.jpg', title: 'Isla Inujima', description: 'Isla de arte que utiliza el patrimonio industrial', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.4080555, 133.5136111], image: 'images/castillo1.jpg', title: 'Isla Shiraishijima', description: 'Danza Shiraishi', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.3611111, 133.5813888], image: 'images/castillo1.jpg', title: 'Isla Manabejima', description: 'Mikoshi corriendo', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.2347222, 132.9127777], image: 'images/castillo1.jpg', title: 'Isla Osakikamijima', description: 'Carrera de botes de remos en Osakikamijima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.9447222, 132.2713888], image: 'images/castillo1.jpg', title: 'Isla Yashirojima', description: 'Tambores de Kuga Hikiyama', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.7797222, 131.9811111], image: 'images/castillo1.jpg', title: 'Isla Iwaishima', description: 'Arrozales en terrazas con muros de piedra', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.8588888, 132.0069444], image: 'images/castillo1.jpg', title: 'Isla Ushijima', description: 'Rompeolas de Fujita y Nishizaki', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.9816666, 131.7616666], image: 'images/castillo1.jpg', title: 'Isla Hegurashima', description: 'Festival Kifune', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.1013888, 130.7875], image: 'images/castillo1.jpg', title: 'Isla Futaoshima', description: 'Ceremonia del \'dios de la montaña\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.7633333, 131.1519444], image: 'images/castillo1.jpg', title: 'Isla Mishima', description: 'Cometas Oni-Yozu', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.1986111, 134.5975], image: 'images/castillo1.jpg', title: 'Islas Oge y Shimada', description: 'Ferry de Naruto', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.5033333, 134.2413888], image: 'images/castillo1.jpg', title: 'Isla Shodoshima', description: 'Kabuki rural y mil arrozales en terrazas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.4752777, 134.3186111], image: 'images/castillo1.jpg', title: 'Isla Shodoshima', description: 'Pueblo de la salsa de soja con bodegas consecutivas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.4852777, 134.0866666], image: 'images/castillo1.jpg', title: 'Isla Teshima', description: 'Agua relacionada con el gran maestro: \'Agua pura de Karato\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.3902777, 134.0513888], image: 'images/castillo1.jpg', title: 'Isla Megijima', description: 'Muros de piedra (Oote)', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.3941666, 133.7877777], image: 'images/castillo1.jpg', title: 'Isla Honshima', description: 'Paisaje urbano de Kasashima que conserva vestigios de una ciudad castillo medieval', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.1280555, 133.5358333], image: 'images/castillo1.jpg', title: 'Isla Ibukijima', description: 'Procesamiento de sardinas secas (iriko)', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.2444444, 133.1322222], image: 'images/castillo1.jpg', title: 'Isla Iwagishima', description: 'Mar donde madura la hierba marina', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.995, 133.3652777], image: 'images/castillo1.jpg', title: 'Isla Nii-Oshima', description: 'Festival de otoño \'Yomiya\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.1236111, 132.9780555], image: 'images/castillo1.jpg', title: 'Isla Kojima', description: 'Fortaleza Geiyo que queda en la ruta Shimanami Kaido', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.8941666, 132.6716666], image: 'images/castillo1.jpg', title: 'Isla Gogoshima', description: 'Danza del barco', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.9730555, 132.6202777], image: 'images/castillo1.jpg', title: 'Isla Nakajima', description: 'Paraíso de las mandarinas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.2227777, 132.5222222], image: 'images/castillo1.jpg', title: 'Isla Kushima', description: 'Oni-ushi (demonio-buey) infantil', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.7386111, 132.5494444], image: 'images/castillo1.jpg', title: 'Islas Okinoshima y Ugurushima', description: 'Vida junto a muros y escaleras de piedra', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.8988888, 130.4336111], image: 'images/castillo1.jpg', title: 'Isla Munakata-Oshima', description: 'Festival Miare', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.2416666, 130.1041666], image: 'images/castillo1.jpg', title: 'Isla Okinoshima', description: 'Okinoshima, la isla donde habitan los dioses', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.4738888, 129.9880555], image: 'images/castillo1.jpg', title: 'Isla Takashima', description: 'Cabalgando las olas, trayendo sueños de vuelta: la ruta de regreso Hoto', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.5886111, 129.8611111], image: 'images/castillo1.jpg', title: 'Isla Kakarajima', description: 'Leyenda del nacimiento del rey Muryeong de Baekje', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.5861111, 129.84], image: 'images/castillo1.jpg', title: 'Isla Matsushima', description: 'Las personas ama que sustentan la vida', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.2208333, 129.2977777], image: 'images/castillo1.jpg', title: 'Isla Tsushima', description: 'Miel de Tsushima y colmenas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [34.69, 129.4425], image: 'images/castillo1.jpg', title: 'Isla Tsushima', description: 'El árbol Hitotsubatago que ilumina el mar y el distrito de Waniura', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.4969444, 129.5444444], image: 'images/castillo1.jpg', title: 'Isla Matsuura-Oshima', description: 'Arrozales en terrazas de Daikon-zaka', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.1869444, 129.0627777], image: 'images/castillo1.jpg', title: 'Isla Ojika', description: 'Despedida de las madres de la isla', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.2816666, 129.1102777], image: 'images/castillo1.jpg', title: 'Isla Uku', description: 'Cría de ganado wagyu de alta calidad desde la isla', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.0483333, 129.0991666], image: 'images/castillo1.jpg', title: 'Isla Nakadomari', description: 'Secado de pez volador', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.8672222, 129.0080555], image: 'images/castillo1.jpg', title: 'Isla Wakamatsu', description: 'Cueva de la bahía de los cristianos', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.0122222, 129.1827777], image: 'images/castillo1.jpg', title: 'Isla Kashiragashima', description: 'Catedral de Kashiragashima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.7694444, 128.9922222], image: 'images/castillo1.jpg', title: 'Isla Kabashima', description: 'Oración por una buena pesca. Festival del santuario de Kabashima: \'Remolque del Horai Maru\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.6863888, 128.8561111], image: 'images/castillo1.jpg', title: 'Isla Fukue', description: 'Danza budista \'Chankoko\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.57, 128.9041666], image: 'images/castillo1.jpg', title: 'Isla Koshima', description: 'Puerto de Koshima: \'Dique de piedra apilada\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.0019444, 129.35], image: 'images/castillo1.jpg', title: 'Isla Ejima', description: 'Salsa de soja artesanal de Ejima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.885, 129.6], image: 'images/castillo1.jpg', title: 'Isla Ikeshima', description: 'Técnicas de extracción de carbón', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.6277777, 129.7380555], image: 'images/castillo1.jpg', title: 'Isla Hashima/Gunkanjima', description: 'Gunkanjima, que cuenta la prosperidad de la era Showa', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.3677777, 130.3491666], image: 'images/castillo1.jpg', title: 'Isla Yokoura', description: 'Barcos de cesta', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.5511111, 130.1152777], image: 'images/castillo1.jpg', title: 'Isla Tsujijima', description: 'Tsujijima donde nadan los delfines', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [33.7236111, 131.6483333], image: 'images/castillo1.jpg', title: 'Isla Himeshima', description: 'Danza Bon transmitida de generación en generación', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [32.6661111, 131.8161111], image: 'images/castillo1.jpg', title: 'Isla Shimanourajima', description: '¡Un momento lleno de vida! Gran festival de otoño del santuario Shimanoura', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [31.8458333, 129.9175], image: 'images/castillo1.jpg', title: 'Isla Kamikoshiki', description: 'La \'isla del alma\' con muros de piedra redondeada', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [30.7583333, 131.0719444], image: 'images/castillo1.jpg', title: 'Isla Tanegashima', description: 'Elaboración tradicional de azúcar moreno', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [30.6897222, 131.0616666], image: 'images/castillo1.jpg', title: 'Isla Tanegashima', description: 'Artes folclóricas transmitidas en Tanegashima', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [30.2341666, 130.4775], image: 'images/castillo1.jpg', title: 'Isla Yakushima', description: 'Aguas termales junto al mar, lugar de descanso para los residentes', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [30.8138888, 130.4172222], image: 'images/castillo1.jpg', title: 'Isla Takeshima', description: 'Reunirse alrededor de los brotes de bambú', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [30.7822222, 130.2791666], image: 'images/castillo1.jpg', title: 'Isla Iojima', description: 'Danza del tambor Hassaku', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [29.6886111, 129.5294444], image: 'images/castillo1.jpg', title: 'Isla Hirajima', description: 'Cultura tradicional de la isla relacionada con el clan Heike', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [29.4575, 129.5930555], image: 'images/castillo1.jpg', title: 'Isla Akusekijima', description: 'Baño de arena', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [28.3202777, 129.5322222], image: 'images/castillo1.jpg', title: 'Isla Amami Oshima', description: 'Grupo de ruinas de Kominato Fuwaneku y colonia de cícadas', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [28.0941666, 129.325], image: 'images/castillo1.jpg', title: 'Isla Kakeroma', description: 'Teatro Shibaya de Shodon', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [28.0438888, 129.1641666], image: 'images/castillo1.jpg', title: 'Isla Yorojima', description: 'Muros de coral que traen frescor', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [27.7272222, 129.0175], image: 'images/castillo1.jpg', title: 'Isla Tokunoshima', description: 'Danza de la playa de Kametsu', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [25.825, 131.2141666], image: 'images/castillo1.jpg', title: 'Isla Minamidaito', description: 'Piscina de agua de mar junto a la playa', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [25.9538888, 131.2841666], image: 'images/castillo1.jpg', title: 'Isla Kitadaito', description: 'Barcos pesqueros \'voladores\'', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [26.9972222, 127.9252777], image: 'images/castillo1.jpg', title: 'Isla Noho', description: 'Pequeña tienda en una pequeña isla', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [26.3697222, 127.9841666], image: 'images/castillo1.jpg', title: 'Isla Henza', description: 'Sangwacha (Festival del tercer mes del calendario lunar)', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [26.1294444, 127.7727777], image: 'images/castillo1.jpg', title: 'Isla Ou', description: 'Paisaje de secado de calamares voladores (Tobicha)', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [26.1975, 127.3647222], image: 'images/castillo1.jpg', title: 'Isla Tokashiki', description: 'Paisaje urbano donde nadan los peces', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [26.3394444, 126.8383333], image: 'images/castillo1.jpg', title: 'Isla Oha', description: 'Viejos pescadores y embarcaciones sabani', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [24.825, 125.1475], image: 'images/castillo1.jpg', title: 'Isla Shimoji', description: 'Aeropuerto de Shimojishima para entrenamiento de pilotos de jet civiles', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [24.33, 124.0852777], image: 'images/castillo1.jpg', title: 'Isla Taketomi', description: 'Festival de la cosecha de semillas \'Tanadui\' en armonía con la tradición japonesa', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [24.4191666, 123.7777777], image: 'images/castillo1.jpg', title: 'Isla Iriomote', description: 'Tinte y tejido que dan vida a la isla', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' },
+    { coords: [24.0566666, 123.7813888], image: 'images/castillo1.jpg', title: 'Isla Hateruma', description: 'Campos de caña de azúcar', link: 'https://business.jnto.go.jp/photo_and_video_library_jomc' }    
+];
+
 // Create the castle layer group
 var castillo = L.layerGroup();
-markerData.forEach(function(data) {
+castilloData.forEach(function(data) {
     L.marker(data.coords).bindPopup(
         "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
         "<b>" + data.title + "</b><br>" +
@@ -36,7 +229,7 @@ markerData.forEach(function(data) {
 
 // Create the sakura layer group
 var sakura = L.layerGroup();
-markerDataS.forEach(function(data) {
+sakuraData.forEach(function(data) {
     L.marker(data.coords).bindPopup(
         "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
         "<b>" + data.title + "</b><br>" +
@@ -46,7 +239,19 @@ markerDataS.forEach(function(data) {
         "</a>"
     ).addTo(sakura);
 });
-
+    
+// Create the island layer group
+var islas = L.layerGroup();
+islasData.forEach(function(data) {
+    L.marker(data.coords).bindPopup(
+        "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: 100% 100%;'></h1>" +
+        "<b>" + data.title + "</b><br>" +
+        data.description + "<br><br>" +
+        "<a href='" + data.link + "' target='_blank'>" + 
+        "<button style='background-color: blue; color: white;'>Más info</button>" +
+        "</a>"
+    ).addTo(islas);
+});
 // Initialize the map
 var map = L.map('map', {
     center: [35.6712, 139.7811], 
@@ -63,7 +268,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Create layer control
 var overlayMaps = {
     "Castillos": castillo,
-    "Sakuras": sakura
+    "Sakuras": sakura,
+    "Islas": islas
 };
 
 // Add layer control to the map
