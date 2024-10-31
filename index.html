@@ -285,27 +285,31 @@ function updateMapSettings() {
                 </div>`
             )
             .on('click', function(e) {
-                // Open the popup to ensure it's visible
-                this.openPopup();
+    // Delay the height measurement to allow the popup to render
+    setTimeout(() => {
+        // Get the popup element using the Leaflet API
+        const popupElement = document.querySelector('.leaflet-popup');
+        
+        // Check if the popup element exists
+        if (popupElement) {
+            // Get the height of the popup
+            const popupHeight = popupElement.offsetHeight;
 
-                // Calculate the popup height
-                const popupHeight = 100; // Adjust this to match your popup height
+            // Adjust the lat/lng to account for the popup's height
+            const offset = map.project(e.latlng).y - (popupHeight / 2); // Calculate the new position
+            const adjustedLatLng = map.unproject([map.project(e.latlng).x, offset]); // Convert back to lat/lng
 
-                // Calculate the new center position
-                const newCenter = [
-                    e.latlng.lat - (popupHeight / 2 / 111320), // Convert pixels to latitude degrees (approx.)
-                    e.latlng.lng
-                ];
+            // Determine the target zoom level
+            const targetZoom = Math.min(map.getZoom() + 1, 9); // Increase zoom by 1, capped at 9
 
-                // Fly to the new center position
-                const currentZoom = map.getZoom();
-                const targetZoom = Math.min(currentZoom + 1, 11); // Adds 1 zoom level, capped at 9
-
-                map.flyTo(newCenter, targetZoom, {
-                    animate: true,
-                    duration: 1.5 // 1 second for the fly animation
-                });
-            })
+            // Fly to the adjusted position
+            map.flyTo(adjustedLatLng, targetZoom, {
+                animate: true,
+                duration: 1 // 1 second for the fly animation
+            });
+        }
+    }, 0); // Set timeout to ensure popup is rendered before measuring
+})
             .addTo(castillo);
     });
 }
