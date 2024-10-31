@@ -337,7 +337,7 @@ jinjaData.forEach(function(data) {
 	const googleMapsLink = `https://www.google.com/maps/dir/?api=1&destination=${data.coords[0]},${data.coords[1]}`;
     
     L.marker(data.coords, {icon: jinjaIcon}).bindPopup(
-        "<div style='max-width: 200px; padding: 5px;'>" +
+        "<div style='max-width: 200px;'>" +
         "<h1 style='height: 100px; width: 200px; background-image: url("+ data.image +"); background-repeat: no-repeat; background-size: cover; object-fit: cover;'></h1>" +
         "<b>" + data.title + "</b><br>" +
         truncatedDescription + "<br><br>" +
@@ -519,7 +519,7 @@ L.control.layers(null, overlayMaps).addTo(map);
     }
 
 .leaflet-popup-content {
-	margin: -13px 8px 2px 8px;
+	margin: -13px 3px 2px 4px;
 	line-height: 1.3;
 	font-size: 13px;
 	font-size: 1.08333em;
