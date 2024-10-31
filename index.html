@@ -254,16 +254,15 @@ function updateMapSettings() {
     // Update icon and popup sizes based on screen width
     var iconSize = window.matchMedia("(max-width: 768px)").matches ? [60, 60] : [40, 40];
     var popupMaxWidth = window.matchMedia("(max-width: 768px)").matches ? '60vw' : '200px';
-    var popupFontSize = window.matchMedia("(max-width: 768px)").matches ? '3vw' : '16px';
-
+    
     // Update castilloIcon with dynamic sizes
     var iconAnchorX = window.matchMedia("(max-width: 768px)").matches ? 30 : 20; // Adjust as necessary
-var castilloIcon = L.icon({
-    iconUrl: 'https://www.sozailab.jp/db_img/sozai/23128/thumb_6668787a10a950947167bf58276a32e9.png',
-    iconSize: iconSize,
-    iconAnchor: [iconAnchorX, iconSize[1]], // Centering icon
-    popupAnchor: [0, -iconSize[1]] // Adjust as necessary
-});
+    var castilloIcon = L.icon({
+        iconUrl: 'https://www.sozailab.jp/db_img/sozai/23128/thumb_6668787a10a950947167bf58276a32e9.png',
+        iconSize: iconSize,
+        iconAnchor: [iconAnchorX, iconSize[1]], // Centering icon
+        popupAnchor: [0, -iconSize[1]] // Adjust as necessary
+    });
 
     // Clear existing markers if reloading
     if (castillo) castillo.clearLayers();
@@ -286,17 +285,27 @@ var castilloIcon = L.icon({
                 </div>`
             )
             .on('click', function(e) {
-    // Get the current zoom level
-    const currentZoom = map.getZoom();
-    // Set the target zoom level relative to the current zoom
-    const targetZoom = Math.min(currentZoom + 1, 9); // Adds 1 zoom level, capped at 9
+                // Open the popup to ensure it's visible
+                this.openPopup();
 
-    // Fly to the marker with smooth animation, ensuring it centers
-    map.flyTo(e.latlng, targetZoom, {
-        animate: true,
-        duration: 1 // 1 second for the fly animation
-    });
-})
+                // Calculate the popup height
+                const popupHeight = 100; // Adjust this to match your popup height
+
+                // Calculate the new center position
+                const newCenter = [
+                    e.latlng.lat - (popupHeight / 2 / 111320), // Convert pixels to latitude degrees (approx.)
+                    e.latlng.lng
+                ];
+
+                // Fly to the new center position
+                const currentZoom = map.getZoom();
+                const targetZoom = Math.min(currentZoom + 1, 11); // Adds 1 zoom level, capped at 9
+
+                map.flyTo(newCenter, targetZoom, {
+                    animate: true,
+                    duration: 1.5 // 1 second for the fly animation
+                });
+            })
             .addTo(castillo);
     });
 }
