@@ -253,16 +253,17 @@ var castillo = L.layerGroup();
 function updateMapSettings() {
     // Update icon and popup sizes based on screen width
     var iconSize = window.matchMedia("(max-width: 768px)").matches ? [60, 60] : [40, 40];
-    var popupMaxWidth = window.matchMedia("(max-width: 768px)").matches ? '60vw' : '200px';
+    var popupMaxWidth = window.matchMedia("(max-width: 768px)").matches ? '80vw' : '200px';
     var popupFontSize = window.matchMedia("(max-width: 768px)").matches ? '3vw' : '16px';
 
     // Update castilloIcon with dynamic sizes
-    var castilloIcon = L.icon({
-        iconUrl: 'https://www.sozailab.jp/db_img/sozai/23128/thumb_6668787a10a950947167bf58276a32e9.png',
-        iconSize: iconSize,
-        iconAnchor: [iconSize[0] / 2, iconSize[1]],
-        popupAnchor: [0, -iconSize[1]]
-    });
+    var iconAnchorX = window.matchMedia("(max-width: 768px)").matches ? 30 : 20; // Adjust as necessary
+var castilloIcon = L.icon({
+    iconUrl: 'https://www.sozailab.jp/db_img/sozai/23128/thumb_6668787a10a950947167bf58276a32e9.png',
+    iconSize: iconSize,
+    iconAnchor: [iconAnchorX, iconSize[1]], // Centering icon
+    popupAnchor: [0, -iconSize[1]] // Adjust as necessary
+});
 
     // Clear existing markers if reloading
     if (castillo) castillo.clearLayers();
@@ -285,10 +286,17 @@ function updateMapSettings() {
                 </div>`
             )
             .on('click', function(e) {
-                const currentZoom = map.getZoom();
-                const targetZoom = Math.min(currentZoom + 1, 9);
-                map.flyTo(e.latlng, targetZoom, { animate: true, duration: 1 });
-            })
+    // Get the current zoom level
+    const currentZoom = map.getZoom();
+    // Set the target zoom level relative to the current zoom
+    const targetZoom = Math.min(currentZoom + 1, 9); // Adds 1 zoom level, capped at 9
+
+    // Fly to the marker with smooth animation, ensuring it centers
+    map.flyTo(e.latlng, targetZoom, {
+        animate: true,
+        duration: 1 // 1 second for the fly animation
+    });
+})
             .addTo(castillo);
     });
 }
